@@ -1,5 +1,16 @@
 import dataUtils
+import argparse
 
 def practiceExplore():
-    df = dataUtils.load_CSV()
-    print(df.head())
+    parser = argparse.ArgumentParser(description="Explore a CSV dataset.")
+    parser.add_argument(
+        "--dataset", 
+        type=str,
+        required=True,
+        help="Path to the CSV dataset file."
+    )
+
+    args = parser.parse_args()
+    df = dataUtils.load_csv(args.dataset)
+    
+    print(df.info())
