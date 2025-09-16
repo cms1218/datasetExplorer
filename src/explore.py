@@ -13,4 +13,4 @@ def practiceExplore():
     args = parser.parse_args()
     df = dataUtils.load_csv(args.dataset)
     
-    print(df.info())
+    dataUtils.handle_missing(df)
