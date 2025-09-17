@@ -12,5 +12,4 @@ def practiceExplore():
 
     args = parser.parse_args()
     df = dataUtils.load_csv(args.dataset)
-    
-    dataUtils.handle_missing(df)
+    dataUtils.missing_values_table(df)
