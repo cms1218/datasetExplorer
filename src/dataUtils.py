@@ -54,8 +54,9 @@ def handle_missing(
                 except Exception as e:
                     print("Invalid num_fill strategy entered. Defaulting to mean")
                     df[col] = df[col].fillna(df[col].mean())
-    
 
+    # Categorical missing value handling
+    df[col] = df[col].fillna(df[col].mode())
     return df
 
 def missing_value_interaction(df : pd.DataFrame) -> pd.DataFrame:
