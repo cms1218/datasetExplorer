@@ -13,7 +13,7 @@ def load_csv(path: str) -> pd.DataFrame:
 
 # Handle missing values in the dataframe
 
-def missing_values_table(df : pd.DataFrame) -> pd.DataFrame:
+def missing_values_table(df : pd.DataFrame):
     # Collect missing values
     missing_val = df.isnull().sum()
 
@@ -26,11 +26,33 @@ def missing_values_table(df : pd.DataFrame) -> pd.DataFrame:
     
     # Drop Rows that have no missing values from missing_value table
     missing_val_table = missing_val_table[missing_val_table['Missing Values'] > 0]
-    missing_val_table = missing_val_table.sort_values('Missing Values', ascending = False)
+    missing_val_table = missing_val_table.sort_values('% of Total Values', ascending = False)
+    
     print(missing_val_table)
 
-def handle_missing(df : pd.DataFrame) -> pd.DataFrame:
-    missing_values_table(df)
+    print("Would you like to alter the dataset to account for missing values? ")
+    choice = int(input("Please enter 1 for 'Yes' or 2 for 'No'"))
+
+
+    if (choice == 1):
+        # Collect args for handle_missing
+        drop = float(input("Please enter the threshold of missing values necessary to drop a column: "))
+        num_fill = input("Please input fill preferences for numerical data: ")
+        cat_fill = input("Please input fill preferences for categorical data: ")
+
+        handle_missing(df, drop, num_fill, cat_fill)
+    elif choice == 2:
+        pass
+    else:
+        print("Invalid input. Missing Value Management will be skipped. ")
+    
+
+def handle_missing(
+    df : pd.DataFrame,
+    dropThresh: float = .6,
+    num_fill: str = "mean",
+    cat_fill: str = "mode"
+    ) -> pd.DataFrame:
     pass
     
 
