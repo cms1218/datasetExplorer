@@ -33,7 +33,7 @@ def missing_values_table(df : pd.DataFrame):
     print("Would you like to alter the dataset to account for missing values? ")
     choice = int(input("Please enter 1 for 'Yes' or 2 for 'No'"))
 
-
+    ## ISOLATE THIS FROM missing_values_table
     if (choice == 1):
         # Collect args for handle_missing
         drop = float(input("Please enter the threshold of missing values necessary to drop a column: "))
@@ -53,7 +53,27 @@ def handle_missing(
     num_fill: str = "mean",
     cat_fill: str = "mode"
     ) -> pd.DataFrame:
-    pass
+    
+    df = df.dropna(axis = 1, thresh = int((1-dropThresh)*len(df)))
+    
+    for col in df:
+        if pd.api.types.is_numeric_dtype(df[col]):
+            if num_fill.lower() == "mean":
+                df = df[col].fillna(df[col].mean())
+            elif num_fill.lower() == "median":
+                df = df[col].fillna(df[col].median())
+            else:
+                try:
+                    df = df[col].fillna(float(num_fill))
+                except Exception as e:
+                    print("Invalid num_fill strategy entered. Defaulting to mean")
+                    df = df[col].fillna(df[col].mean())
+    
+
+    return df
+
+                
+           
     
 
 
