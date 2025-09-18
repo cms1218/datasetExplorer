@@ -54,9 +54,10 @@ def handle_missing(
                 except Exception as e:
                     print("Invalid num_fill strategy entered. Defaulting to mean")
                     df[col] = df[col].fillna(df[col].mean())
-
-    # Categorical missing value handling
-    df[col] = df[col].fillna(df[col].mode())
+        # Categorical missing value handling
+        if not(pd.api.types.is_numeric_dtype):
+            df[col] = df[col].fillna(df[col].mode())
+ 
     return df
 
 def missing_value_interaction(df : pd.DataFrame) -> pd.DataFrame:
@@ -79,17 +80,26 @@ def missing_value_interaction(df : pd.DataFrame) -> pd.DataFrame:
         else:
             print("Invalid input.")
     return df
-    
+
+# Generate summary statistics for each column
+def summaryStats(df) -> dict:
+    sumStatsList = {}
+    for col in df:
+        if pd.api.types.is_numeric_dtype(df[col]):
+            tempDict = {}
+            tempDict["Mean"] = df[col].mean()
+            tempDict["Median"] = df[col].median()
+            tempDict["Std"] = df[col].std()
+            tempDict["Min"] = df[col].min()
+            tempDict["Max"] = df[col].max()
+            tempDict["Missing"] = df[col].isna().sum()
+            sumStatsList[col] = tempDict
+        else:
+            # Convert series returned by value_counts() to dict
+            pass
+    return sumStatsList
 
 
-           
-    
-
-
-# Create histogram for a specified column
-
-# Create scatter plot for two specified columns
-
-# Generate summary statistics for the dataframe
-
+def outlier(df):
+    pass
 
